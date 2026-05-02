@@ -27,4 +27,4 @@ A simple tool to generate and download customizable SVG placeholder images. Idea
 ## **Live Tool**
 
 You can access the live tool here:
-👉 [**SVG Placeholder Generator**](https://itxcrusher.github.io/svg-placeholder-generator/)
+👉 [**SVG Placeholder Generator**](https://crusher-labs.github.io/svg-placeholder-generator/)
