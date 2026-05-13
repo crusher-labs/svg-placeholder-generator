@@ -1,234 +1,179 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full" data-theme="minimal" data-theme-lock="minimal" data-mode="light">
+<html lang="en"
+      data-default-theme="minimal"
+      data-theme-lock="minimal"
+      data-default-mode="light"
+      data-default-brand="#0ea5e9">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVG Placeholder Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/themes/minimal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.js"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        body { font-family: 'Inter', sans-serif; }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+            gap: var(--crusher-spacing-8);
+            max-width: 56rem;
+            margin-inline: auto;
         }
-        input[type="color"] {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            width: 40px;
-            height: 40px;
-            border: none;
+        .tool-section { padding: var(--crusher-spacing-6); display: grid; gap: var(--crusher-spacing-6); }
+        .tool-section h2 {
+            margin: 0;
+            padding-bottom: var(--crusher-spacing-3);
+            border-bottom: 1px solid var(--crusher-border-primary);
+            font-size: var(--crusher-font-size-xl);
+            color: var(--crusher-text-primary);
+        }
+        .tool-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--crusher-spacing-4); }
+        .tool-field { display: grid; gap: var(--crusher-spacing-1); }
+        .tool-label { font-size: var(--crusher-font-size-sm); font-weight: 500; color: var(--crusher-text-secondary); }
+        input.crusher-tool-control { padding: var(--crusher-spacing-2) var(--crusher-spacing-3); }
+
+        .tool-color-row { display: flex; align-items: center; gap: var(--crusher-spacing-2); }
+        .tool-color-swatch {
+            inline-size: 2.5rem; block-size: 2.5rem;
+            border: none; padding: 0;
+            border-radius: var(--crusher-radius-md);
             cursor: pointer;
-            background-color: transparent;
-            padding: 0;
+            background: transparent;
         }
-        input[type="color"]::-webkit-color-swatch {
-            border-radius: 8px;
-            border: 2px solid #e2e8f0; /* slate-200 */
-        }
-        .dark input[type="color"]::-webkit-color-swatch {
-            border: 2px solid #475569; /* slate-600 */
-        }
-        input[type="color"]::-moz-color-swatch {
-            border-radius: 8px;
-            border: 2px solid #e2e8f0; /* slate-200 */
-        }
-        .dark input[type="color"]::-moz-color-swatch {
-             border: 2px solid #475569; /* slate-600 */
+        .tool-color-swatch::-webkit-color-swatch { border-radius: var(--crusher-radius-md); border: 2px solid var(--crusher-border-primary); }
+        .tool-color-swatch::-moz-color-swatch { border-radius: var(--crusher-radius-md); border: 2px solid var(--crusher-border-primary); }
+        .tool-color-row .crusher-tool-control { flex: 1; }
+
+        .tool-side { display: grid; gap: var(--crusher-spacing-6); align-content: start; }
+
+        #preview-container {
+            inline-size: 100%;
+            min-block-size: 12rem;
+            padding: var(--crusher-spacing-4);
+            border-radius: var(--crusher-radius-xl);
+            border: 2px solid var(--crusher-border-primary);
+            background: var(--crusher-background-surface);
+            box-shadow: var(--crusher-shadow-lg);
+            display: flex; align-items: center; justify-content: center;
         }
         #preview-container svg {
             max-width: 100%;
             height: auto;
-            border-radius: 0.5rem;
+            border-radius: var(--crusher-radius-md);
         }
-        #hub-bubble {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            width: 56px;
-            height: 56px;
-            background-color: #0ea5e9; /* sky-500 */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+        .tool-code-wrap { position: relative; display: grid; gap: var(--crusher-spacing-2); }
+        textarea.crusher-tool-control {
+            min-block-size: 6rem;
+            padding: var(--crusher-spacing-3) calc(var(--crusher-spacing-3) + 2rem) var(--crusher-spacing-3) var(--crusher-spacing-3);
+            font-family: monospace; font-size: var(--crusher-font-size-xs); resize: none;
         }
-        #hub-bubble:hover {
-            transform: scale(1.1);
-            background-color: #0284c7; /* sky-600 */
+        .tool-copy-btn {
+            position: absolute; inset-block-start: 1.85rem; inset-inline-end: var(--crusher-spacing-2);
+            background: transparent; border: 0; padding: var(--crusher-spacing-1);
+            color: var(--crusher-text-secondary); cursor: pointer; line-height: 0;
+            border-radius: var(--crusher-radius-md);
+        }
+        .tool-copy-btn:hover { color: var(--crusher-color-brand-primary); }
+        .tool-copy-feedback {
+            position: absolute; inset-block-end: var(--crusher-spacing-2); inset-inline-end: var(--crusher-spacing-2);
+            font-size: var(--crusher-font-size-xs); color: var(--crusher-color-brand-primary);
+        }
+        .tool-download-btn {
+            inline-size: 100%;
+            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
+            font-weight: 700;
         }
     </style>
-     <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if ((() => { try { const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); return localStorage.getItem('crusher_tools_mode_contract') === 'style-switcher-v3' && prefs.mode === 'dark'; } catch { return false; } })()) {
-          document.documentElement.classList.add('dark'); document.documentElement.setAttribute('data-mode', 'dark')
-        } else {
-          document.documentElement.classList.remove('dark'); document.documentElement.setAttribute('data-mode', 'light')
-        }
-    </script>
-    <!-- Crusher UI Kit: published static contract -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/minimal.css">
-    <style id="crusher-tools-framework-bridge">
-        :root {
-            --crusher-style-switcher-top: var(--crusher-spacing-6);
-            --crusher-style-switcher-width: 16.5rem;
-            --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
-            --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
-            --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
-            --crusher-style-switcher-color-gap: var(--crusher-spacing-2);
-            --crusher-style-switcher-color-justify: flex-start;
-        }
-        html[data-mode="dark"] { color-scheme: dark; }
-                #theme-toggle { display: none !important; }
-        body {
-            background:
-                radial-gradient(circle at top left, color-mix(in srgb, var(--crusher-color-brand-primary) 14%, transparent), transparent 28rem),
-                var(--crusher-background-canvas) !important;
-            color: var(--crusher-text-primary) !important;
-        }
-        h1, h2, h3 { color: var(--crusher-text-primary) !important; }
-        p, label, .text-slate-400, .text-slate-500, .text-slate-600, .dark\:text-slate-400, .dark\:text-slate-500 {
-            color: var(--crusher-text-secondary) !important;
-        }
-        .text-sky-400, .text-sky-500, .dark\:text-sky-400,
-        a:not(.tool-card):not(#hub-bubble) {
-            color: var(--crusher-color-brand-primary) !important;
-        }
-        .tool-card,
-        main.bg-white,
-        .bg-white,
-        .bg-slate-50,
-        .bg-slate-100,
-        .dark .dark\:bg-slate-700,
-        .dark .dark\:bg-slate-800 {
-            background-color: var(--crusher-background-surface) !important;
-            border-color: var(--crusher-border-primary) !important;
-            box-shadow: var(--crusher-shadow-lg) !important;
-        }
-        input, textarea, select,
-        .dark .dark\:bg-slate-700:is(input, textarea, select) {
-            background-color: var(--crusher-background-muted) !important;
-            color: var(--crusher-text-primary) !important;
-            border-color: var(--crusher-border-primary) !important;
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--crusher-color-brand-primary) !important;
-            box-shadow: 0 0 0 var(--crusher-focus-width) color-mix(in srgb, var(--crusher-color-brand-primary) 26%, transparent) !important;
-        }
-        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn),
-        .case-btn {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 12%, var(--crusher-background-surface)) !important;
-            color: var(--crusher-text-primary) !important;
-            border-color: color-mix(in srgb, var(--crusher-color-brand-primary) 28%, var(--crusher-border-primary)) !important;
-        }
-        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn):hover,
-        .case-btn:hover,
-        .tool-card:hover {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 18%, var(--crusher-background-surface)) !important;
-            border-color: var(--crusher-color-brand-primary) !important;
-        }
-        #hub-bubble {
-            background-color: var(--crusher-color-brand-primary) !important;
-            box-shadow: var(--crusher-shadow-lg) !important;
-        }
-        #hub-bubble:hover {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 82%, black) !important;
-            transform: translateY(-2px) scale(1.03) !important;
-        }
-</style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-200 flex flex-col items-center justify-center min-h-screen p-4 antialiased transition-colors duration-300">
-    
-    <!-- Theme Toggle Button -->
-    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-10">
-        <button id="theme-toggle" type="button" title="Toggle light/dark mode" class="bg-white dark:bg-slate-800 p-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200 shadow-md">
-            <svg id="theme-toggle-sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg id="theme-toggle-moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        </button>
-    </div>
+<body class="crusher-tool-page">
 
-    <div class="w-full max-w-4xl mx-auto">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">SVG Placeholder Generator</h1>
-            <p class="text-slate-600 dark:text-slate-400 mt-2">Create custom SVG placeholders instantly.</p>
+    <main class="crusher-tool-shell">
+        <header class="crusher-tool-header">
+            <h1 class="crusher-tool-title">SVG Placeholder Generator</h1>
+            <p class="crusher-tool-lede">Create custom SVG placeholders instantly.</p>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Controls Panel -->
-            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl dark:shadow-2xl border border-slate-200 dark:border-slate-700 p-6 space-y-6">
-                <h2 class="text-xl font-semibold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3">Options</h2>
-                
-                <!-- Dimensions -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="width" class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Width</label>
-                        <input type="number" id="width" value="800" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white rounded-md p-2 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-sky-500">
+        <div class="tool-grid">
+            <section class="crusher-tool-surface tool-section">
+                <h2>Options</h2>
+
+                <div class="tool-pair">
+                    <div class="tool-field">
+                        <label for="width" class="tool-label">Width</label>
+                        <input type="number" id="width" value="800" class="crusher-tool-control">
                     </div>
-                    <div>
-                        <label for="height" class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Height</label>
-                        <input type="number" id="height" value="600" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white rounded-md p-2 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-sky-500">
+                    <div class="tool-field">
+                        <label for="height" class="tool-label">Height</label>
+                        <input type="number" id="height" value="600" class="crusher-tool-control">
                     </div>
                 </div>
 
-                <!-- Colors -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Background</label>
-                        <div class="flex items-center gap-2">
-                           <input type="color" id="bgColor" value="#e2e8f0">
-                           <input type="text" id="bgColorText" value="#e2e8f0" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white rounded-md p-2 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-sky-500">
+                <div class="tool-pair">
+                    <div class="tool-field">
+                        <label class="tool-label" for="bgColor">Background</label>
+                        <div class="tool-color-row">
+                            <input type="color" id="bgColor" value="#e2e8f0" class="tool-color-swatch" aria-label="Background color picker">
+                            <input type="text" id="bgColorText" value="#e2e8f0" class="crusher-tool-control" aria-label="Background color hex">
                         </div>
                     </div>
-                     <div>
-                        <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Text Color</label>
-                        <div class="flex items-center gap-2">
-                           <input type="color" id="textColor" value="#64748b">
-                           <input type="text" id="textColorText" value="#64748b" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white rounded-md p-2 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-sky-500">
+                    <div class="tool-field">
+                        <label class="tool-label" for="textColor">Text Color</label>
+                        <div class="tool-color-row">
+                            <input type="color" id="textColor" value="#64748b" class="tool-color-swatch" aria-label="Text color picker">
+                            <input type="text" id="textColorText" value="#64748b" class="crusher-tool-control" aria-label="Text color hex">
                         </div>
                     </div>
                 </div>
 
-                <!-- Text Options -->
-                 <div>
-                    <label for="text" class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Text</label>
-                    <input type="text" id="text" value="800 x 600" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white rounded-md p-2 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-sky-500">
+                <div class="tool-field">
+                    <label for="text" class="tool-label">Text</label>
+                    <input type="text" id="text" value="800 x 600" class="crusher-tool-control">
                 </div>
-                 <div>
-                    <label for="fontSize" class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Font Size</label>
-                    <input type="number" id="fontSize" value="48" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white rounded-md p-2 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-1 focus:ring-sky-500">
+                <div class="tool-field">
+                    <label for="fontSize" class="tool-label">Font Size</label>
+                    <input type="number" id="fontSize" value="48" class="crusher-tool-control">
                 </div>
+            </section>
 
-            </div>
-
-            <!-- Preview & Actions Panel -->
-            <div class="space-y-6">
-                <div id="preview-container" class="w-full min-h-[200px] bg-white dark:bg-slate-800 rounded-xl border-2 border-slate-200 dark:border-slate-700 p-4 flex items-center justify-center">
-                    <!-- SVG will be injected here -->
-                </div>
-                 <div class="relative">
-                    <label for="svg-code" class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">SVG Code</label>
-                    <textarea id="svg-code" readonly class="w-full h-24 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-mono text-xs rounded-md p-3 pr-10 resize-none"></textarea>
-                    <button id="copy-code" class="absolute top-9 right-2 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors" title="Copy Code">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/></svg>
+            <div class="tool-side">
+                <div id="preview-container"></div>
+                <div class="tool-code-wrap">
+                    <label for="svg-code" class="tool-label">SVG Code</label>
+                    <textarea id="svg-code" readonly class="crusher-tool-control"></textarea>
+                    <button id="copy-code" type="button" class="tool-copy-btn" title="Copy Code" aria-label="Copy Code">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/>
+                        </svg>
                     </button>
-                    <span id="copy-feedback" class="absolute bottom-2 right-2 text-xs text-emerald-500 dark:text-emerald-400"></span>
+                    <span id="copy-feedback" class="tool-copy-feedback"></span>
                 </div>
-                <button id="download-svg" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">
-                    Download SVG
-                </button>
+                <button id="download-svg" type="button" class="crusher-tool-action tool-download-btn">Download SVG</button>
             </div>
         </div>
-    </div>
+    </main>
+
+    <a href="https://tools.muhammadhassaanjaved.com/" id="hub-bubble" class="crusher-tool-fab" title="View All Tools" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+    </a>
+
+    <crusher-style-switcher
+      default-theme="minimal"
+      default-brand="#0ea5e9"
+      hide-themes
+      hide-theme-color></crusher-style-switcher>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.standalone.esm.js"></script>
 
     <script>
         const widthInput = document.getElementById('width');
@@ -245,6 +190,8 @@
         const downloadSvgBtn = document.getElementById('download-svg');
         const copyFeedback = document.getElementById('copy-feedback');
 
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+
         function generateSvg() {
             const width = widthInput.value || 100;
             const height = heightInput.value || 100;
@@ -253,28 +200,32 @@
             const text = textInput.value;
             const fontSize = fontSizeInput.value || 24;
 
-            const svgString = `
-<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="${bgColor}" />
-  <text x="50%" y="50%" font-family="Inter, sans-serif" font-size="${fontSize}" fill="${textColor}" text-anchor="middle" dy=".3em">${text}</text>
-</svg>`.trim();
+            const svg = document.createElementNS(SVG_NS, 'svg');
+            svg.setAttribute('width', String(width));
+            svg.setAttribute('height', String(height));
+            svg.setAttribute('xmlns', SVG_NS);
 
-            previewContainer.innerHTML = svgString;
-            svgCodeTextarea.value = svgString;
-        }
-        
-        function setDefaultColors(isDarkMode) {
-             if (isDarkMode) {
-                bgColorInput.value = '#334155'; // slate-700
-                bgColorTextInput.value = '#334155';
-                textColorInput.value = '#cbd5e1'; // slate-300
-                textColorTextInput.value = '#cbd5e1';
-            } else {
-                bgColorInput.value = '#e2e8f0'; // slate-200
-                bgColorTextInput.value = '#e2e8f0';
-                textColorInput.value = '#64748b'; // slate-500
-                textColorTextInput.value = '#64748b';
-            }
+            const rect = document.createElementNS(SVG_NS, 'rect');
+            rect.setAttribute('width', '100%');
+            rect.setAttribute('height', '100%');
+            rect.setAttribute('fill', bgColor);
+            svg.appendChild(rect);
+
+            const textEl = document.createElementNS(SVG_NS, 'text');
+            textEl.setAttribute('x', '50%');
+            textEl.setAttribute('y', '50%');
+            textEl.setAttribute('font-family', 'Inter, sans-serif');
+            textEl.setAttribute('font-size', String(fontSize));
+            textEl.setAttribute('fill', textColor);
+            textEl.setAttribute('text-anchor', 'middle');
+            textEl.setAttribute('dy', '.3em');
+            textEl.textContent = text;
+            svg.appendChild(textEl);
+
+            previewContainer.replaceChildren(svg);
+
+            const serializer = new XMLSerializer();
+            svgCodeTextarea.value = serializer.serializeToString(svg);
         }
 
         function updateInputs() {
@@ -293,14 +244,16 @@
             }
             generateSvg();
         }
-        
-        copyCodeBtn.addEventListener('click', () => {
-            svgCodeTextarea.select();
-            document.execCommand('copy');
+
+        copyCodeBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(svgCodeTextarea.value);
+            } catch {
+                svgCodeTextarea.select();
+                document.execCommand('copy');
+            }
             copyFeedback.textContent = 'Copied!';
-            setTimeout(() => {
-                copyFeedback.textContent = '';
-            }, 2000);
+            setTimeout(() => { copyFeedback.textContent = ''; }, 2000);
         });
 
         downloadSvgBtn.addEventListener('click', () => {
@@ -315,139 +268,11 @@
             URL.revokeObjectURL(url);
         });
 
-        // Add event listeners
         [widthInput, heightInput, bgColorInput, textColorInput, bgColorTextInput, textColorTextInput, textInput, fontSizeInput].forEach(input => {
             input.addEventListener('input', updateInputs);
         });
-        
-        
-        // Theme Toggle Logic
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('theme-toggle-sun-icon');
-        const moonIcon = document.getElementById('theme-toggle-moon-icon');
 
-        const updateIcons = () => {
-            if (document.documentElement.classList.contains('dark')) {
-                sunIcon.classList.remove('hidden');
-                moonIcon.classList.add('hidden');
-            } else {
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
-            }
-        };
-
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.theme = isDark ? 'dark' : 'light';
-            setDefaultColors(isDark);
-            generateSvg();
-            updateIcons();
-        });
-
-        // Initial generation
-        setDefaultColors((() => { try { const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); return localStorage.getItem('crusher_tools_mode_contract') === 'style-switcher-v3' && prefs.mode === 'dark'; } catch { return false; } })());
         generateSvg();
-        updateIcons();
     </script>
-    
-    <!-- Floating Hub Button Snippet -->
-    <a href="https://tools.muhammadhassaanjaved.com/" id="hub-bubble" title="View All Tools" target="_blank" rel="noopener noreferrer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-        </svg>
-    </a>
-    <!-- End of Snippet -->
-    <crusher-style-switcher default-theme="minimal" hide-themes hide-theme-color></crusher-style-switcher>
-    <script id="crusher-minimal-mode-lock">
-      (() => {
-        const root = document.documentElement;
-        const CONTRACT_VERSION = 'style-switcher-v3';
-        const DEFAULT_BRAND = '#0ea5e9';
-        const SWITCHER_COLORS = {
-          sky: '#0ea5e9',
-          emerald: '#10b981',
-          violet: '#8b5cf6',
-          orange: '#f97316',
-          pink: '#ec4899'
-        };
-        const readPrefs = () => {
-          try { return JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); } catch { return {}; }
-        };
-        const writePrefs = (prefs) => {
-          try { localStorage.setItem('crusher_prefs', JSON.stringify(prefs)); } catch {}
-        };
-        const normalizeMode = (mode) => mode === 'dark' ? 'dark' : 'light';
-        const ensurePrefs = (forcedMode) => {
-          const prefs = readPrefs();
-          const currentContract = (() => { try { return localStorage.getItem('crusher_tools_mode_contract'); } catch { return ''; } })();
-          if (currentContract !== CONTRACT_VERSION) {
-            prefs.mode = 'light';
-            try { localStorage.setItem('crusher_tools_mode_contract', CONTRACT_VERSION); } catch {}
-          } else if (forcedMode === 'dark' || forcedMode === 'light') {
-            prefs.mode = forcedMode;
-          } else {
-            prefs.mode = normalizeMode(prefs.mode);
-          }
-          prefs.theme = 'minimal';
-          if (!prefs.brand) prefs.brand = DEFAULT_BRAND;
-          try { localStorage.theme = prefs.mode; } catch {}
-          writePrefs(prefs);
-          return prefs;
-        };
-        const sync = (forcedMode) => {
-          const prefs = ensurePrefs(forcedMode);
-          root.setAttribute('data-theme', 'minimal');
-          root.setAttribute('data-theme-lock', 'minimal');
-          root.setAttribute('data-mode', prefs.mode);
-          root.classList.toggle('dark', prefs.mode === 'dark');
-          root.style.setProperty('--crusher-color-brand-primary', prefs.brand || DEFAULT_BRAND);
-        };
-        const patchSwitcher = async () => {
-          await customElements.whenDefined('crusher-style-switcher');
-          const switcher = document.querySelector('crusher-style-switcher');
-          if (!switcher) return;
-          switcher.hideThemes = true;
-          switcher.hideThemeColor = true;
-          switcher.colors = SWITCHER_COLORS;
-          switcher._cacheSwatchColors?.();
-          switcher.requestUpdate?.();
-          await switcher.updateComplete?.catch?.(() => {});
-          const applyShadowFixes = () => {
-            const shadow = switcher.shadowRoot;
-            if (!shadow) return;
-            shadow.querySelectorAll('button').forEach((button) => { button.style.cursor = 'pointer'; });
-            shadow.querySelectorAll('.colors').forEach((row) => {
-              row.style.flexWrap = 'nowrap';
-              row.style.justifyContent = 'flex-start';
-              row.style.gap = '0.45rem';
-            });
-            shadow.querySelectorAll('.swatch').forEach((swatch) => {
-              swatch.style.inlineSize = '1.65rem';
-              swatch.style.blockSize = '1.65rem';
-              swatch.style.flex = '0 0 auto';
-              swatch.style.cursor = 'pointer';
-            });
-          };
-          applyShadowFixes();
-          const originalRequestUpdate = switcher.requestUpdate?.bind(switcher);
-          if (originalRequestUpdate && !switcher.__crusherToolsPatched) {
-            switcher.__crusherToolsPatched = true;
-            switcher.requestUpdate = (...args) => {
-              const result = originalRequestUpdate(...args);
-              requestAnimationFrame(applyShadowFixes);
-              return result;
-            };
-          }
-        };
-        sync();
-        window.addEventListener('crusher:themechange', (event) => sync(event.detail?.mode));
-        document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(() => sync()));
-        patchSwitcher();
-      })();
-    </script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js"></script>
 </body>
 </html>
