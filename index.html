@@ -1,480 +1,217 @@
 <!DOCTYPE html>
-<html lang="en"
-      data-default-theme="minimal"
-      data-theme-lock="minimal"
-      data-default-mode="dark"
-      data-default-brand="#0ea5e9">
+<html lang="en" data-world="gallery-frame">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SVG Placeholder Generator</title>
+    <title>SVG Placeholder Generator - Custom Size, Colours and Text, Copy or Download</title>
     <!-- SEO-META-START -->
-    <meta name="description" content="Generate and download simple, customizable SVG placeholder images.">
-    <meta name="theme-color" content="#0ea5e9">
+    <meta name="description" content="Generate SVG placeholder images at any size with your own colours, text and font, hung in a gallery frame that resizes as you type. Copy the SVG, a data URI or an img tag, or download the file. Nothing uploaded.">
+    <meta name="theme-color" content="#eae6df">
     <link rel="canonical" href="https://crusher-labs.github.io/svg-placeholder-generator/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
-    <meta property="og:title" content="SVG Placeholder Generator — Web Utility Tools by CRUSHER">
-    <meta property="og:description" content="Generate and download simple, customizable SVG placeholder images.">
+    <meta property="og:title" content="SVG Placeholder Generator - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Generate SVG placeholder images at any size with your own colours, text and font, hung in a gallery frame that resizes as you type. Copy the SVG, a data URI or an img tag, or download the file. Nothing uploaded.">
     <meta property="og:url" content="https://crusher-labs.github.io/svg-placeholder-generator/">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="SVG Placeholder Generator — Web Utility Tools by CRUSHER">
-    <meta name="twitter:description" content="Generate and download simple, customizable SVG placeholder images.">
+    <meta name="twitter:title" content="SVG Placeholder Generator - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Generate SVG placeholder images at any size with your own colours, text and font, hung in a gallery frame that resizes as you type. Copy the SVG, a data URI or an img tag, or download the file. Nothing uploaded.">
     <!-- SEO-META-END -->
     <link rel="icon" href="data:,">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://unpkg.com https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@1.2.1/dist/crusher-ui.min.css" integrity="sha384-Y8s5q9n5rodpO7nSyRNxbxlns7zYnuOEymBbSwEg9GmW2R/Zt3U4BWOZLb3q2NjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@1.2.1/dist/themes/minimal.css" integrity="sha384-FLhZ0Qhy8nUbGu4oSm0Vs5uPCL1RgZn+Ld2/fj3PrYDUMqltf2vObwpWHiOzRx4l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@1.2.1/dist/static/tool-shell.css" integrity="sha384-mWfiqr7mGlAa+yVw+7vt40gfFTtAhs2jjBYbTLTvNRYUtZEtAJ0YPHlTdB8kuhSE" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@1.2.1/dist/static/tool-shell.js" integrity="sha384-gNDnPKn5AoF0e4Q555fGbM+snO+UCP3/z4ErG3cyS/Akusg/bzTO+AYmG1WAMnab" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Public+Sans:wght@400;600&display=swap">
     <style>
-        body {
-        font-family: 'Inter', sans-serif;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-    /* === Premium polish (2026-05-14) === */
-    body { position: relative; isolation: isolate; }
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0 0 auto 0;
-        block-size: 32rem;
-        background:
-            radial-gradient(ellipse 70% 50% at 50% -5%,
-                color-mix(in srgb, var(--crusher-color-brand-primary) 18%, transparent),
-                transparent 65%);
-        pointer-events: none;
-        z-index: -1;
-        opacity: 0.85;
-    }
-    ::selection { background: color-mix(in srgb, var(--crusher-color-brand-primary) 30%, transparent); }
-        /* PREMIUM-INPUT-START (until framework-feedback Section 6 ships) */
-        .crusher-tool-control {
-            background: color-mix(in srgb, var(--crusher-background-surface) 72%, transparent);
-            -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
-            border: 1px solid color-mix(in srgb, var(--crusher-border-primary) 70%, transparent);
-            color: var(--crusher-text-primary);
-            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
-            border-radius: var(--crusher-radius-lg);
-            font-family: inherit;
-            font-size: 0.9375rem;
-            line-height: 1.5;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-        .crusher-tool-control:hover { border-color: var(--crusher-border-primary); }
-        .crusher-tool-control:focus-visible {
-            border-color: var(--crusher-color-brand-primary);
-            box-shadow: 0 0 0 4px color-mix(in srgb, var(--crusher-color-brand-primary) 18%, transparent);
-            outline: none;
-            background: var(--crusher-background-surface);
-        }
-        .crusher-tool-control::placeholder {
-            color: var(--crusher-text-secondary);
-            opacity: 0.7;
-        }
-        .crusher-tool-control:focus::placeholder { opacity: 0.4; }
-        textarea.crusher-tool-control { resize: vertical; min-block-size: 4.5rem; }
-        /* PREMIUM-INPUT-END */
-    .crusher-tool-title {
-        font-family: 'Fraunces', 'Georgia', serif;
-        font-optical-sizing: auto;
-        font-variation-settings: 'opsz' 48, 'SOFT' 30;
-        font-weight: 500;
-        font-style: normal;
-        font-size: clamp(2rem, 4.5vw, 3rem);
-        line-height: 1.05;
-        letter-spacing: -0.025em;
-    }
-    .crusher-tool-action {
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-    .crusher-tool-action:hover:not([disabled]) {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--crusher-color-brand-primary) 35%, transparent);
-    }
 
-        .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-            gap: var(--crusher-spacing-8);
-            max-width: 56rem;
-            margin-inline: auto;
-        }
-        .tool-section { padding: var(--crusher-spacing-6); display: grid; gap: var(--crusher-spacing-6); }
-        .tool-section h2 {
-            margin: 0;
-            padding-bottom: var(--crusher-spacing-3);
-            border-bottom: 1px solid var(--crusher-border-primary);
-            font-size: var(--crusher-font-size-xl);
-            color: var(--crusher-text-primary);
-        }
-        .tool-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--crusher-spacing-4); }
-        .tool-field { display: grid; gap: var(--crusher-spacing-1); }
-        .tool-label { font-size: var(--crusher-font-size-sm); font-weight: 500; color: var(--crusher-text-secondary); }
-        input.crusher-tool-control { padding: var(--crusher-spacing-2) var(--crusher-spacing-3); }
+    :root { --wall:#eae6df; --wall2:#dcd7ce; --ink:#1e1c19; --muted:#6c675f; --frame:#141311; --mat:#f7f5f0; --line:#d3cec4; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--wall); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:400 11px 'Public Sans', sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:400 clamp(30px, 4.6vw, 48px)/1.05 'DM Serif Display', Georgia, serif; }
+    .lede { margin:12px 0 22px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .wall { position:relative; min-height:520px; border-radius:6px; background: radial-gradient(ellipse at 50% 0%, #f4f1ea, var(--wall) 45%, var(--wall2) 100%); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), inset 0 -40px 60px rgba(0,0,0,.05); display:grid; grid-template-columns: 1fr auto; gap:30px; align-items:center; padding:40px 40px; }
+    .wall::after { content:''; position:absolute; left:0; right:0; bottom:0; height:14px; background:#cfc9be; border-top:1px solid rgba(0,0,0,.12); border-radius:0 0 6px 6px; }
+    .hang { display:flex; justify-content:center; align-items:center; min-height:420px; }
+    .frame { background:var(--frame); padding:14px; box-shadow: 0 30px 50px rgba(0,0,0,.28), 0 4px 10px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.08); transition: width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1); }
+    .mat { background:var(--mat); padding:26px; height:100%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+    .art { width:100%; height:100%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18), inset 2px 2px 8px rgba(0,0,0,.14); }
+    .art svg { display:block; width:100%; height:100%; }
+    .plaque { width:210px; background:#fbfaf7; border:1px solid var(--line); padding:14px 16px; box-shadow:0 6px 16px rgba(0,0,0,.1); font-size:12.5px; line-height:1.5; }
+    .plaque b { display:block; font:400 16px 'DM Serif Display', Georgia, serif; }
+    .plaque i { display:block; font:italic 400 14px 'DM Serif Display', Georgia, serif; margin-bottom:6px; }
+    .plaque span { display:block; color:var(--muted); }
+    .desk { margin-top:18px; display:grid; grid-template-columns: 1.1fr 1fr; gap:18px; }
+    .panel { background:#fbfaf7; border:1px solid var(--line); border-radius:6px; padding:16px 18px; display:grid; gap:12px; }
+    .panel h2 { margin:0; font:400 18px 'DM Serif Display', Georgia, serif; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .f label { display:block; font:600 11px 'Public Sans', sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+    .f input[type="number"], .f input[type="text"], .f select { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); font:14px 'Public Sans', sans-serif; outline:none; }
+    .f input:focus, .f select:focus { border-color:var(--ink); }
+    .col { display:flex; gap:8px; align-items:center; }
+    .col input[type="color"] { width:44px; height:38px; border:1px solid var(--line); border-radius:4px; background:#fff; padding:2px; cursor:pointer; flex:none; }
+    .opts { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; font-size:13px; color:var(--muted); }
+    .opts label { display:inline-flex; gap:6px; align-items:center; }
+    .key { padding:8px 14px; border:1px solid var(--ink); border-radius:4px; background:transparent; color:var(--ink); font:600 12px 'Public Sans', sans-serif; cursor:pointer; text-decoration:none; display:inline-block; }
+    .key.solid { background:var(--ink); color:#fff; }
+    textarea { width:100%; min-height:150px; resize:vertical; padding:12px 14px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); font:12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; outline:none; }
+    .meta { font-size:12px; color:var(--muted); }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:400 26px 'DM Serif Display', Georgia, serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid var(--line); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px ui-monospace, Menlo, Consolas, monospace; background:#dcd7ce; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'Public Sans', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 860px) { main { padding:26px 12px 56px; } .wall { grid-template-columns:1fr; padding:26px 14px 30px; min-height:0; } .hang { min-height:0; } .frame { padding:10px; } .mat { padding:14px; } .plaque { width:100%; } .desk { grid-template-columns:1fr; } }
 
-        .tool-color-row { display: flex; align-items: center; gap: var(--crusher-spacing-2); }
-        .tool-color-swatch {
-            inline-size: 2.5rem; block-size: 2.5rem;
-            border: none; padding: 0;
-            border-radius: var(--crusher-radius-md);
-            cursor: pointer;
-            background: transparent;
-        }
-        .tool-color-swatch::-webkit-color-swatch { border-radius: var(--crusher-radius-md); border: 2px solid var(--crusher-border-primary); }
-        .tool-color-swatch::-moz-color-swatch { border-radius: var(--crusher-radius-md); border: 2px solid var(--crusher-border-primary); }
-        .tool-color-row .crusher-tool-control { flex: 1; }
-
-        .tool-side { display: grid; gap: var(--crusher-spacing-6); align-content: start; }
-
-        #preview-container {
-            inline-size: 100%;
-            min-block-size: 12rem;
-            padding: var(--crusher-spacing-4);
-            border-radius: var(--crusher-radius-xl);
-            border: 2px solid var(--crusher-border-primary);
-            background: var(--crusher-background-surface);
-            box-shadow: var(--crusher-shadow-lg);
-            display: flex; align-items: center; justify-content: center;
-        }
-        #preview-container svg {
-            max-width: 100%;
-            height: auto;
-            border-radius: var(--crusher-radius-md);
-        }
-
-        .tool-code-wrap { position: relative; display: grid; gap: var(--crusher-spacing-2); }
-        textarea.crusher-tool-control {
-            min-block-size: 6rem;
-            padding: var(--crusher-spacing-3) calc(var(--crusher-spacing-3) + 2rem) var(--crusher-spacing-3) var(--crusher-spacing-3);
-            font-family: monospace; font-size: var(--crusher-font-size-xs); resize: none;
-        }
-        .tool-copy-btn {
-            position: absolute; inset-block-start: 1.85rem; inset-inline-end: var(--crusher-spacing-2);
-            background: transparent; border: 0; padding: var(--crusher-spacing-1);
-            color: var(--crusher-text-secondary); cursor: pointer; line-height: 0;
-            border-radius: var(--crusher-radius-md);
-        }
-        .tool-copy-btn:hover { color: var(--crusher-color-brand-primary); }
-        .tool-copy-feedback {
-            position: absolute; inset-block-end: var(--crusher-spacing-2); inset-inline-end: var(--crusher-spacing-2);
-            font-size: var(--crusher-font-size-xs); color: var(--crusher-color-brand-primary);
-        }
-        .tool-download-btn {
-            inline-size: 100%;
-            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
-            font-weight: 700;
-        }
-
-        .tool-feedback {
-            width: min(100%, 56rem);
-            margin: var(--crusher-spacing-8) auto var(--crusher-spacing-6);
-            padding-inline: var(--crusher-spacing-4);
-        }
-        .tool-feedback-trigger {
-            cursor: pointer;
-            padding: var(--crusher-spacing-2) var(--crusher-spacing-3);
-            font-size: var(--crusher-font-size-sm);
-            color: var(--crusher-text-secondary);
-            border-radius: var(--crusher-radius-md);
-            list-style: none;
-            display: inline-flex;
-            align-items: center;
-            gap: var(--crusher-spacing-2);
-            transition: color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
-        }
-        .tool-feedback-trigger::-webkit-details-marker { display: none; }
-        .tool-feedback-trigger::before {
-            content: '+';
-            display: inline-block;
-            font-weight: 700;
-            color: var(--crusher-color-brand-primary);
-        }
-        .tool-feedback-details[open] .tool-feedback-trigger::before { content: '−'; }
-        .tool-feedback-trigger:hover { color: var(--crusher-color-brand-primary); }
-        .tool-feedback-form {
-            margin-top: var(--crusher-spacing-3);
-            padding: var(--crusher-spacing-4);
-            border: 1px solid var(--crusher-border-primary);
-            border-radius: var(--crusher-radius-lg);
-            background: var(--crusher-background-surface);
-            display: grid;
-            gap: var(--crusher-spacing-3);
-        }
-        .tool-feedback-field { display: grid; gap: var(--crusher-spacing-1); }
-        .tool-feedback-field > span {
-            font-size: var(--crusher-font-size-xs);
-            color: var(--crusher-text-secondary);
-            font-weight: 500;
-        }
-        .tool-feedback-submit {
-            padding-inline: var(--crusher-spacing-4);
-            padding-block: var(--crusher-spacing-2);
-        }
-        .tool-feedback-submit[disabled] { opacity: 0.6; cursor: not-allowed; }
-        .tool-feedback-status {
-            margin: 0;
-            min-block-size: 1.25rem;
-            font-size: var(--crusher-font-size-sm);
-            color: var(--crusher-text-secondary);
-        }
-        .tool-feedback-status[data-kind="ok"] { color: var(--crusher-color-brand-primary); }
-        .tool-feedback-status[data-kind="error"] { color: #dc2626; }
-        .tool-feedback-honey { position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; }
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
     </style>
 </head>
-<body class="crusher-tool-page">
+<body>
 
-    <main class="crusher-tool-shell">
-        <header class="crusher-tool-header">
-            <h1 class="crusher-tool-title">SVG Placeholder Generator</h1>
-            <p class="crusher-tool-lede">Create custom SVG placeholders instantly.</p>
-        </header>
-
-        <div class="tool-grid">
-            <section class="crusher-tool-surface tool-section">
-                <h2>Options</h2>
-
-                <div class="tool-pair">
-                    <div class="tool-field">
-                        <label for="width" class="tool-label">Width</label>
-                        <input type="number" id="width" value="800" class="crusher-tool-control">
-                    </div>
-                    <div class="tool-field">
-                        <label for="height" class="tool-label">Height</label>
-                        <input type="number" id="height" value="600" class="crusher-tool-control">
-                    </div>
-                </div>
-
-                <div class="tool-pair">
-                    <div class="tool-field">
-                        <label class="tool-label" for="bgColor">Background</label>
-                        <div class="tool-color-row">
-                            <input type="color" id="bgColor" value="#e2e8f0" class="tool-color-swatch" aria-label="Background color picker">
-                            <input type="text" id="bgColorText" value="#e2e8f0" class="crusher-tool-control" aria-label="Background color hex">
-                        </div>
-                    </div>
-                    <div class="tool-field">
-                        <label class="tool-label" for="textColor">Text Color</label>
-                        <div class="tool-color-row">
-                            <input type="color" id="textColor" value="#64748b" class="tool-color-swatch" aria-label="Text color picker">
-                            <input type="text" id="textColorText" value="#64748b" class="crusher-tool-control" aria-label="Text color hex">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tool-field">
-                    <label for="text" class="tool-label">Text</label>
-                    <input type="text" id="text" value="800 x 600" class="crusher-tool-control">
-                </div>
-                <div class="tool-field">
-                    <label for="fontSize" class="tool-label">Font Size</label>
-                    <input type="number" id="fontSize" value="48" class="crusher-tool-control">
-                </div>
-            </section>
-
-            <div class="tool-side">
-                <div id="preview-container"></div>
-                <div class="tool-code-wrap">
-                    <label for="svg-code" class="tool-label">SVG Code</label>
-                    <textarea id="svg-code" readonly class="crusher-tool-control"></textarea>
-                    <button id="copy-code" type="button" class="tool-copy-btn" title="Copy Code" aria-label="Copy Code">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/>
-                        </svg>
-                    </button>
-                    <span id="copy-feedback" class="tool-copy-feedback"></span>
-                </div>
-                <button id="download-svg" type="button" class="crusher-tool-action tool-download-btn">Download SVG</button>
-            </div>
+    <main>
+      <p class="kicker">Gallery wall · frame and mat · tombstone label</p>
+      <h1>SVG Placeholder Generator</h1>
+      <p class="lede">Set a size, colours and a line of text. The placeholder hangs in the frame, resizing on the wall as you type, with its label beside it. Copy the SVG, a data URI or an img tag, or download the file.</p>
+      <div class="wall">
+        <div class="hang"><div class="frame" id="frame"><div class="mat"><div class="art" id="art"></div></div></div></div>
+        <div class="plaque" id="plaque"><b id="pl-title">Untitled (800 × 600)</b><i>2026</i><span id="pl-medium">SVG on screen</span><span id="pl-dims">800 × 600 px · 0 B</span></div>
+      </div>
+      <div class="desk">
+        <div class="panel">
+          <h2>Commission</h2>
+          <div class="grid2">
+            <div class="f"><label for="w">Width</label><input id="w" type="number" min="1" max="8000" value="800"></div>
+            <div class="f"><label for="h">Height</label><input id="h" type="number" min="1" max="8000" value="600"></div>
+            <div class="f"><label for="bg">Background</label><div class="col"><input type="color" id="bgc" value="#e2e8f0" aria-label="Background colour picker"><input type="text" id="bg" value="#e2e8f0" spellcheck="false"></div></div>
+            <div class="f"><label for="fg">Text colour</label><div class="col"><input type="color" id="fgc" value="#64748b" aria-label="Text colour picker"><input type="text" id="fg" value="#64748b" spellcheck="false"></div></div>
+            <div class="f" style="grid-column:1 / -1"><label for="text">Text</label><input id="text" type="text" value="800 × 600" placeholder="Leave empty for the size"></div>
+            <div class="f"><label for="size">Font size</label><input id="size" type="number" min="6" max="600" value="48"></div>
+            <div class="f"><label for="font">Font</label><select id="font"><option value="sans-serif">Sans-serif</option><option value="serif">Serif</option><option value="monospace">Monospace</option></select></div>
+          </div>
+          <div class="opts"><label><input type="checkbox" id="lines"> Diagonal lines</label><label><input type="checkbox" id="border" checked> Hairline border</label></div>
         </div>
+        <div class="panel">
+          <h2>The piece</h2>
+          <textarea id="code" readonly aria-label="SVG source"></textarea>
+          <div class="opts"><button type="button" class="key solid" id="copy">Copy SVG</button><button type="button" class="key" id="copy-uri">Copy data URI</button><button type="button" class="key" id="copy-img">Copy &lt;img&gt;</button><a class="key" id="download" href="#" download="placeholder-800x600.svg">Download .svg</a><span class="meta" id="meta"></span></div>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>A placeholder that weighs nothing</h2>
+        <p>Layouts need images before the images exist. An SVG placeholder is a few hundred bytes of text that draws a rectangle with a label at any size you like, scales without blurring, and can be pasted straight into HTML or CSS as a data URI, so there is no file to host while you design. This page writes that SVG for you and shows it hung and framed, so you see the proportions the way they will read on the page.</p>
+        <h3>Using it</h3>
+        <p>Copy SVG gives the raw file for saving or pasting inline. Copy data URI gives a <code>data:image/svg+xml</code> string to use as an <code>img src</code> or a CSS <code>url()</code>. Copy img gives a ready <code>&lt;img&gt;</code> tag with width and height set, which keeps your layout from jumping when the real image arrives.</p>
+        <h3>Why a gallery wall</h3>
+        <p>Galleries hang work at 57 inches to the centre and beside each piece put a small card, the tombstone label: artist, title, year, medium, dimensions. A placeholder is a piece with no artist yet, so it gets a frame, a mat and a label with its dimensions, which is all a placeholder really has to say.</p>
+        <details><summary>Why does the text field say the size?</summary><p>Because that is the most useful placeholder text: anyone looking at the mock-up sees what size image to supply. Type anything else to override it; clear the field to go back to the size.</p></details>
+        <details><summary>Can I use a font of my own?</summary><p>The SVG names a generic family (sans-serif, serif or monospace) so it renders everywhere without loading a font. Edit the copied code to name a specific one if you like.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The SVG is generated in your browser, and the download is created there too.</p></details>
+      </section>
+      <div class="foot"><span>Gallery wall · 57 inches to centre</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
     </main>
-
-    <a href="https://tools.muhammadhassaanjaved.com/" id="hub-bubble" class="crusher-tool-fab" title="View All Tools" target="_blank" rel="noopener noreferrer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-        </svg>
-    </a>
-
-    <crusher-style-switcher
-      default-theme="minimal"
-      default-brand="#0ea5e9"
-      hide-themes
-      hide-theme-color>
-        <svg slot="mode-light-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"/></svg>
-        <svg slot="mode-dark-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg>
-    </crusher-style-switcher>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@1.2.1/dist/crusher-ui.standalone.esm.js" integrity="sha384-49DxFeXn1ckPw9AmqDudkw1VT513Id+j1qJmkXCZBAiIaNechVSDTNnsKThtI54K" crossorigin="anonymous"></script>
-
     <script>
-        const widthInput = document.getElementById('width');
-        const heightInput = document.getElementById('height');
-        const bgColorInput = document.getElementById('bgColor');
-        const textColorInput = document.getElementById('textColor');
-        const bgColorTextInput = document.getElementById('bgColorText');
-        const textColorTextInput = document.getElementById('textColorText');
-        const textInput = document.getElementById('text');
-        const fontSizeInput = document.getElementById('fontSize');
-        const previewContainer = document.getElementById('preview-container');
-        const svgCodeTextarea = document.getElementById('svg-code');
-        const copyCodeBtn = document.getElementById('copy-code');
-        const downloadSvgBtn = document.getElementById('download-svg');
-        const copyFeedback = document.getElementById('copy-feedback');
 
-        const SVG_NS = 'http://www.w3.org/2000/svg';
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
 
-        function generateSvg() {
-            const width = widthInput.value || 100;
-            const height = heightInput.value || 100;
-            const bgColor = bgColorInput.value;
-            const textColor = textColorInput.value;
-            const text = textInput.value;
-            const fontSize = fontSizeInput.value || 24;
 
-            const svg = document.createElementNS(SVG_NS, 'svg');
-            svg.setAttribute('width', String(width));
-            svg.setAttribute('height', String(height));
-            svg.setAttribute('xmlns', SVG_NS);
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    let userText = false, url = null;
+    const hexOk = (s) => /^#[0-9a-f]{6}$/i.test(s.trim());
+    function svgSource(w, h, bg, fg, text, size, font, lines, border) {
+      const parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">'];
+      parts.push('  <rect width="100%" height="100%" fill="' + bg + '"/>');
+      if (lines) parts.push('  <path d="M0 0 L' + w + ' ' + h + ' M' + w + ' 0 L0 ' + h + '" stroke="' + fg + '" stroke-opacity="0.35" stroke-width="2"/>');
+      if (border) parts.push('  <rect x="0.5" y="0.5" width="' + (w - 1) + '" height="' + (h - 1) + '" fill="none" stroke="' + fg + '" stroke-opacity="0.5"/>');
+      if (text) parts.push('  <text x="50%" y="50%" fill="' + fg + '" font-family="' + font + '" font-size="' + size + '" font-weight="600" text-anchor="middle" dominant-baseline="central">' + esc(text) + '</text>');
+      parts.push('</svg>');
+      return parts.join(String.fromCharCode(10));
+    }
+    function render() {
+      const w = Math.max(1, Math.min(8000, parseInt($('w').value, 10) || 1)), h = Math.max(1, Math.min(8000, parseInt($('h').value, 10) || 1));
+      const bg = hexOk($('bg').value) ? $('bg').value.trim().toLowerCase() : $('bgc').value, fg = hexOk($('fg').value) ? $('fg').value.trim().toLowerCase() : $('fgc').value;
+      $('bgc').value = bg; $('fgc').value = fg;
+      if (!userText) $('text').value = w + ' \u00d7 ' + h;
+      const text = $('text').value, size = Math.max(6, parseInt($('size').value, 10) || 48), font = $('font').value;
+      const src = svgSource(w, h, bg, fg, text, size, font, $('lines').checked, $('border').checked);
+      $('code').value = src;
+      // hang it
+      const art = $('art'); clear(art);
+      const doc = new DOMParser().parseFromString(src, 'image/svg+xml'); const node = document.importNode(doc.documentElement, true); node.removeAttribute('width'); node.removeAttribute('height'); art.appendChild(node);
+      const maxW = Math.min(620, Math.max(220, $('frame').parentElement.clientWidth - 8)), maxH = 400;
+      let fw = maxW, fh = maxW * h / w; if (fh > maxH) { fh = maxH; fw = maxH * w / h; }
+      if (fw < 140) fw = 140; if (fh < 100) fh = 100;
+      $('frame').style.width = Math.round(fw) + 'px'; $('frame').style.height = Math.round(fh) + 'px';
+      const bytes = new TextEncoder().encode(src).length;
+      $('pl-title').textContent = (userText && text ? text : 'Untitled') + ' (' + w + ' \u00d7 ' + h + ')'; $('pl-dims').textContent = w + ' \u00d7 ' + h + ' px \u00b7 ' + (bytes < 1024 ? bytes + ' B' : (bytes / 1024).toFixed(1) + ' KB');
+      $('meta').textContent = bytes + ' bytes';
+      if (url) URL.revokeObjectURL(url); url = URL.createObjectURL(new Blob([src], { type: 'image/svg+xml' })); const a = $('download'); a.href = url; a.download = 'placeholder-' + w + 'x' + h + '.svg';
+    }
+    ['w', 'h', 'bg', 'fg', 'size', 'font', 'lines', 'border'].forEach((id) => $(id).addEventListener('input', render));
+    $('bgc').addEventListener('input', () => { $('bg').value = $('bgc').value; render(); });
+    $('fgc').addEventListener('input', () => { $('fg').value = $('fgc').value; render(); });
+    $('text').addEventListener('input', () => { userText = $('text').value.trim() !== ''; render(); });
+    const uri = () => 'data:image/svg+xml;utf8,' + encodeURIComponent($('code').value).replace(/%20/g, ' ').replace(/%3D/g, '=').replace(/%3A/g, ':').replace(/%2F/g, '/').replace(/%22/g, "'");
+    copyBtn($('copy'), () => $('code').value, 'Copy SVG');
+    copyBtn($('copy-uri'), uri, 'Copy data URI');
+    copyBtn($('copy-img'), () => '<img src="' + uri().replace(/'/g, '&#39;') + '" width="' + $('w').value + '" height="' + $('h').value + '" alt="' + esc($('text').value || 'placeholder') + '">', 'Copy <img>');
+    window.addEventListener('resize', render);
+    render();
 
-            const rect = document.createElementNS(SVG_NS, 'rect');
-            rect.setAttribute('width', '100%');
-            rect.setAttribute('height', '100%');
-            rect.setAttribute('fill', bgColor);
-            svg.appendChild(rect);
-
-            const textEl = document.createElementNS(SVG_NS, 'text');
-            textEl.setAttribute('x', '50%');
-            textEl.setAttribute('y', '50%');
-            textEl.setAttribute('font-family', 'Inter, sans-serif');
-            textEl.setAttribute('font-size', String(fontSize));
-            textEl.setAttribute('fill', textColor);
-            textEl.setAttribute('text-anchor', 'middle');
-            textEl.setAttribute('dy', '.3em');
-            textEl.textContent = text;
-            svg.appendChild(textEl);
-
-            previewContainer.replaceChildren(svg);
-
-            const serializer = new XMLSerializer();
-            svgCodeTextarea.value = serializer.serializeToString(svg);
-        }
-
-        function updateInputs() {
-            if (this.id === 'width' || this.id === 'height') {
-                textInput.value = `${widthInput.value} x ${heightInput.value}`;
-            }
-            if (this.id === 'bgColor' || this.id === 'bgColorText') {
-                const color = this.value;
-                bgColorInput.value = color;
-                bgColorTextInput.value = color;
-            }
-            if (this.id === 'textColor' || this.id === 'textColorText') {
-                const color = this.value;
-                textColorInput.value = color;
-                textColorTextInput.value = color;
-            }
-            generateSvg();
-        }
-
-        copyCodeBtn.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(svgCodeTextarea.value);
-            } catch {
-                svgCodeTextarea.select();
-                document.execCommand('copy');
-            }
-            copyFeedback.textContent = 'Copied!';
-            setTimeout(() => { copyFeedback.textContent = ''; }, 2000);
-        });
-
-        downloadSvgBtn.addEventListener('click', () => {
-            const svgBlob = new Blob([svgCodeTextarea.value], { type: 'image/svg+xml' });
-            const url = URL.createObjectURL(svgBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `placeholder_${widthInput.value}x${heightInput.value}.svg`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        });
-
-        [widthInput, heightInput, bgColorInput, textColorInput, bgColorTextInput, textColorTextInput, textInput, fontSizeInput].forEach(input => {
-            input.addEventListener('input', updateInputs);
-        });
-
-        generateSvg();
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
     </script>
-
-    <section class="tool-feedback" aria-label="Tool feedback">
-        <details class="tool-feedback-details">
-            <summary class="tool-feedback-trigger">Suggest an improvement</summary>
-            <form id="tool-feedback-form" class="tool-feedback-form" novalidate>
-                <label class="tool-feedback-field">
-                    <span>What could be better?</span>
-                    <textarea name="improvement" rows="3" required maxlength="2000" class="crusher-tool-control" placeholder="Tell me what's missing or what could work better…"></textarea>
-                </label>
-                <label class="tool-feedback-field">
-                    <span>Your email (optional, only if you want a reply)</span>
-                    <input type="email" name="replyto" maxlength="200" class="crusher-tool-control" placeholder="your@email.com">
-                </label>
-                <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-                <div>
-                    <button type="submit" class="crusher-tool-action tool-feedback-submit">Send</button>
-                </div>
-                <p id="tool-feedback-status" class="tool-feedback-status" role="status" aria-live="polite"></p>
-            </form>
-        </details>
-    </section>
-
-    <script>
-        (function() {
-            const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
-            const ENDPOINT = 'https://api.web3forms.com/submit';
-            const form = document.getElementById('tool-feedback-form');
-            const status = document.getElementById('tool-feedback-status');
-            if (!form || !status) return;
-            const toolName = (document.title || 'tool').trim();
-            const subject = '[' + toolName + '] Improvement suggestion';
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const fd = new FormData(form);
-                fd.set('access_key', KEY);
-                fd.set('subject', subject);
-                fd.set('from_name', toolName);
-                const btn = form.querySelector('button[type="submit"]');
-                const orig = btn.textContent;
-                btn.disabled = true; btn.textContent = 'Sending…';
-                status.textContent = ''; delete status.dataset.kind;
-                try {
-                    const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
-                    const data = await res.json();
-                    if (data.success) {
-                        form.reset();
-                        status.textContent = 'Thanks — your suggestion is in.';
-                        status.dataset.kind = 'ok';
-                    } else {
-                        status.textContent = data.message || 'Sorry, that did not go through. Try again later?';
-                        status.dataset.kind = 'error';
-                    }
-                } catch (err) {
-                    status.textContent = 'Network error. Try again?';
-                    status.dataset.kind = 'error';
-                } finally {
-                    btn.disabled = false; btn.textContent = orig;
-                }
-            });
-        })();
-    </script>
-
 </body>
 </html>

@@ -1,30 +1,25 @@
-# **SVG Placeholder Generator**
+# SVG Placeholder Generator
 
-A simple tool to generate and download customizable SVG placeholder images. Ideal for web development and design mockups.
+Generate SVG placeholder images at any size with custom colours, text, font size and family, optional diagonal lines and hairline border, hung on a gallery wall in a black frame with a mat that resizes to the aspect ratio as you type, with a tombstone label carrying title, year, medium, dimensions and file size. Copy the SVG, a data URI or an img tag, or download the .svg. Nothing uploaded.
 
----
+Live: <https://crusher-labs.github.io/svg-placeholder-generator/>
 
-## **Features**
+## The world: Gallery frame
 
-* **Custom Dimensions:** Specify any width and height for your placeholder.
-* **Color Control:** Full control over background and text colors.
-* **Custom Text:** Add any text you want to the placeholder.
-* **Real-Time Preview:** See your SVG placeholder update instantly as you change the options.
-* **Copy & Download:** Easily copy the generated SVG code or download it as a .svg file.
+This tool is a **world page** (crusher-labs standard since 2026-09-02): the page is a committed physical object from the tool's own world, with its own CSS, fonts and mode. It does not load `crusher-ui-kit` and has no theme switcher. The brief for this world lives in the workspace atlas (`x:/crusher-labs/docs/context/tools-theme-atlas.md`); change the atlas before changing the world.
 
----
+## Privacy
 
-## **How to Use**
+This tool runs entirely in your browser. There is no server. No data is uploaded, no telemetry, no analytics. The only network requests fired are the page-load fetches for Google Fonts; your inputs and outputs never leave the tab. The "Suggest an improvement" form posts to Web3Forms only when you submit it.
 
-1. **Open the Tool:** Navigate to the live URL.
-2. **Set Dimensions:** Enter your desired width and height. The text will update automatically to match.
-3. **Customize:** Choose a background color, text color, and font size. You can also change the display text.
-4. **Preview:** The placeholder image will update in real-time.
-5. **Get Your SVG:** Click "Copy Code" to grab the SVG markup or "Download SVG" to save the file to your computer.
+## Contract
 
----
+Validated by `tools-hub/scripts/check-static.mjs` (world-page contract: SEO block, CSP, feedback form, hub link, prose + FAQ, no kit pins). Run `npm run check:static` from `repos/tools-hub` before committing.
 
-## **Live Tool**
+## Development
 
-You can access the live tool here:
-👉 [**SVG Placeholder Generator**](https://crusher-labs.github.io/svg-placeholder-generator/)
+Open `index.html` directly in a browser. No build, no dependencies. Verify at 1440 and 390 via Playwright `setViewportSize` before shipping.
+
+## License
+
+MIT.
